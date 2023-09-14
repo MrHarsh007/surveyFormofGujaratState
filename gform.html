@@ -4,8 +4,6 @@
 <head>
     <title>Survey Form</title>
     <style>
-        /* Your CSS styles here */
-    
         body {
             background-color: #ede4ce;
             font-family: Roboto, Sans-serif;
@@ -118,11 +116,12 @@
             background-color: red;
             color: white;
         }
+
         .btn:hover {
-            cursor: pointer; /* Change cursor to a pointer on hover */
+            cursor: pointer;
+            /* Change cursor to a pointer on hover */
         }
     </style>
-    
 </head>
 
 <body>
@@ -131,177 +130,188 @@
     </center>
 
     <div class="form">
-        <div class="box">
-            <div class="name" id="name">1. Name</div>
-            <div class="input-div"><input type="text" name="name"></div>
-            <div class="message" id="nameError">Required</div>
-        </div>
-        <div class="box">
-            <div class="name" id="email">2. Enter your email</div>
-            <div class="input-div"><input type="text" name="email"></div>
-            <div class="message" id="emailError">Required</div>
-        </div>
-
-        <div class="box">
-            <div class="name" id="mobile">3. Enter your mobile no.</div>
-            <div class="input-div"><input type="number" name="mobile"></div>
-            <div class="message" id="mobileError">Required</div>
-        </div>
-
-        <div class="radio-div">
-            <div class="name" id="gender">4. Select your gender</div>
-            <div class="input-div">
-                <label><input type="radio" name="gender" value="male"> Male</label>
-                <label><input type="radio" name="gender" value="female"> Female</label>
-                <label><input type="radio" name="gender" value="other"> Other</label>
+        <form id="surveyForm">
+            <div class="box">
+                <div class="name" id="name">1. Name</div>
+                <div class="input-div"><input type="text" name="name"></div>
+                <div class="message" id="nameError">Required</div>
             </div>
-            <div class="message" id="genderError">Required</div>
-        </div>
+            <div class="box">
+                <div class="name" id="email">2. Enter your email</div>
+                <div class="input-div"><input type="text" name="email"></div>
+                <div class="message" id="emailError">Required</div>
+            </div>
 
-        <div>
-            <input class="btn" type="submit" name="Submit">
-        </div>
+            <div class="box">
+                <div class="name" id="mobile">3. Enter your mobile no.</div>
+                <div class="input-div"><input type="number" name="mobile"></div>
+                <div class="message" id="mobileError">Required</div>
+            </div>
+
+            <div class="radio-div">
+                <div class="name" id="gender">4. Select your gender</div>
+                <div class="input-div">
+                    <label><input type="radio" name="gender" value="male"> Male</label>
+                    <label><input type="radio" name="gender" value="female"> Female</label>
+                    <label><input type="radio" name="gender" value="other"> Other</label>
+                </div>
+                <div class="message" id="genderError">Required</div>
+            </div>
+
+            <div>
+                <input class="btn" type="submit" value="Submit">
+            </div>
+        </form>
     </div>
 
-    <!-- ... (previous HTML and CSS) ... -->
+    <script>
+        const form = document.getElementById('surveyForm');
+        const nameInput = document.querySelector('input[name="name"]');
+        const emailInput = document.querySelector('input[name="email"]');
+        const mobileInput = document.querySelector('input[name="mobile"]');
+        const genderInputs = document.querySelectorAll('input[name="gender"]');
+        const nameError = document.querySelector('#nameError');
+        const emailError = document.querySelector('#emailError');
+        const mobileError = document.querySelector('#mobileError');
+        const genderError = document.querySelector('#genderError');
 
-<!-- ... (previous HTML and CSS) ... -->
-
-<script>
-    const form = document.querySelector('.form');
-    const nameInput = document.querySelector('input[name="name"]');
-    const emailInput = document.querySelector('input[name="email"]');
-    const mobileInput = document.querySelector('input[name="mobile"]');
-    const genderInputs = document.querySelectorAll('input[name="gender"]');
-    const nameError = document.querySelector('#nameError');
-    const emailError = document.querySelector('#emailError');
-    const mobileError = document.querySelector('#mobileError');
-    const genderError = document.querySelector('#genderError');
-
-    // Function to clear the error message and styles
-    function clearError(element) {
-        element.textContent = '';
-        element.classList.remove('error');
-        element.style.backgroundColor = 'transparent'; // Remove background color
-    }
-   // Function to validate email
-   function validateEmail(email) {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailPattern.test(email);
-    }
-
-    // Function to validate mobile number
-    function validateMobile(mobile) {
-        const mobilePattern = /^[0-9]{10}$/;
-        return mobilePattern.test(mobile);
-    }
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        if (nameInput.value === '') {
-            nameError.textContent = 'Field is required';
-            nameError.classList.add('error');
-        } else {
-            clearError(nameError);
+        // Function to clear the error message and styles
+        function clearError(element) {
+            element.textContent = '';
+            element.classList.remove('error');
+            element.style.backgroundColor = 'transparent'; // Remove background color
         }
-        if (emailInput.value === '') {
-            emailError.textContent = 'Field is required';
-            emailError.classList.add('error');
-        } else {
-            clearError(emailError);
+
+        // Function to validate email
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
         }
-        if (mobileInput.value === '') {
-            mobileError.textContent = 'Field is required';
-            mobileError.classList.add('error');
-        } else {
-            clearError(mobileError);
+
+        // Function to validate mobile number
+        function validateMobile(mobile) {
+            const mobilePattern = /^[0-9]{10}$/;
+            return mobilePattern.test(mobile);
         }
-        let genderSelected = false;
-        for (const genderInput of genderInputs) {
-            if (genderInput.checked) {
-                genderSelected = true;
-                break;
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Check if all fields are empty
+            const nameValue = nameInput.value.trim();
+            const emailValue = emailInput.value.trim();
+            const mobileValue = mobileInput.value.trim();
+            let allFieldsEmpty = false;
+
+            if (nameValue === '') {
+                nameError.textContent = 'Field is required';
+                nameError.classList.add('error');
+                allFieldsEmpty = true;
+            } else {
+                clearError(nameError);
             }
-        }
-        if (!genderSelected) {
-            genderError.textContent = 'Field is required';
-            genderError.classList.add('error');
-        } else {
-            clearError(genderError);
-        }
-        if (nameError.textContent === '' && emailError.textContent === '' &&
-            mobileError.textContent === '' && genderError.textContent === '') {
-            form.submit();
-        }
-    });
 
-    // Event listeners for input blur events
-    nameInput.addEventListener('blur', () => {
-        if (nameInput.value === '') {
-            nameError.textContent = 'Field is required';
-            nameError.classList.add('error');
-        } else {
-            clearError(nameError);
-        }
-    });
+            if (emailValue === '') {
+                emailError.textContent = 'Field is required';
+                emailError.classList.add('error');
+                allFieldsEmpty = true;
+            } else if (!validateEmail(emailValue)) {
+                emailError.textContent = 'Invalid email address';
+                emailError.classList.add('error');
+            } else {
+                clearError(emailError);
+            }
 
-    emailInput.addEventListener('blur', () => {
-        if (emailInput.value === '') {
-            emailError.textContent = 'Field is required';
-            emailError.classList.add('error');
-        }else if (!validateEmail(emailInput.value)) {
-        emailError.textContent = 'Invalid email address';
-        emailError.classList.remove('error');
-        emailError.style.color = 'white';
-        emailError.style.backgroundColor = 'red';
-    } 
-        else {
-            clearError(emailError);
-        }
-    });
+            if (mobileValue === '') {
+                mobileError.textContent = 'Field is required';
+                mobileError.classList.add('error');
+                allFieldsEmpty = true;
+            } else if (!validateMobile(mobileValue)) {
+                mobileError.textContent = 'Mobile Number Should be 10 Digits';
+                mobileError.classList.add('error');
+            } else {
+                clearError(mobileError);
+            }
 
-    mobileInput.addEventListener('blur', () => {
-        if (mobileInput.value === '') {
-            mobileError.textContent = 'Field is required';
-            mobileError.classList.add('error');
-        } else if (!validateMobile(mobileInput.value)) {
-        mobileError.textContent = 'Mobile Number Shoud be 10 Digit';
-        mobileError.classList.remove('error');
-        mobileError.style.color = 'white';
-        mobileError.style.backgroundColor = 'red';
-    } else {
-            clearError(mobileError);
-        }
-    });
+            let genderSelected = false;
+            for (const genderInput of genderInputs) {
+                if (genderInput.checked) {
+                    genderSelected = true;
+                    break;
+                }
+            }
 
-    for (const genderInput of genderInputs) {
-        genderInput.addEventListener('change', () => {
-            if (genderInput.checked) {
+            if (!genderSelected) {
+                genderError.textContent = 'Field is required';
+                genderError.classList.add('error');
+                allFieldsEmpty = true;
+            } else {
                 clearError(genderError);
             }
+
+            if (!allFieldsEmpty) {
+                // If all fields are not empty and validations pass, proceed with form submission
+                form.submit();
+            }
         });
-    }
 
-    // Event listeners for input events to clear error messages and styling when typing
-    nameInput.addEventListener('input', () => {
-        clearError(nameError);
-    });
+        // Event listeners for input blur events
+        nameInput.addEventListener('blur', () => {
+            if (nameInput.value === '') {
+                nameError.textContent = 'Field is required';
+                nameError.classList.add('error');
+                nameError.style.color = 'white';
+                nameError.style.backgroundColor = 'red';
+            } else {
+                clearError(nameError);
+            }
+        });
 
-    emailInput.addEventListener('input', () => {
-        clearError(emailError);
-    });
+        emailInput.addEventListener('blur', () => {
+            if (emailInput.value === '') {
+                emailError.textContent = 'Field is required';
+                emailError.classList.add('error');
+            } else if (!validateEmail(emailInput.value)) {
+                emailError.textContent = 'Invalid email address';
+                emailError.classList.add('error');
+            } else {
+                clearError(emailError);
+            }
+        });
 
-    mobileInput.addEventListener('input', () => {
-        clearError(mobileError);
-    });
-</script>
-</body>
+        mobileInput.addEventListener('blur', () => {
+            if (mobileInput.value === '') {
+                mobileError.textContent = 'Field is required';
+                mobileError.classList.add('error');
+            } else if (!validateMobile(mobileInput.value)) {
+                mobileError.textContent = 'Mobile Number Should be 10 Digits';
+                mobileError.classList.add('error');
+            } else {
+                clearError(mobileError);
+            }
+        });
 
-</html>
+        for (const genderInput of genderInputs) {
+            genderInput.addEventListener('change', () => {
+                if (genderInput.checked) {
+                    clearError(genderError);
+                }
+            });
+        }
 
-</body>
+        // Event listeners for input events to clear error messages and styling when typing
+        nameInput.addEventListener('input', () => {
+            clearError(nameError);
+        });
 
-</html>
+        emailInput.addEventListener('input', () => {
+            clearError(emailError);
+        });
 
+        mobileInput.addEventListener('input', () => {
+            clearError(mobileError);
+        });
+    </script>
 </body>
 
 </html>
